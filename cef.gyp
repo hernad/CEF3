@@ -10,7 +10,7 @@
     'revision': '<!(python tools/revision.py)',
     # Need to be creative to match dylib version formatting requirements.
     'version_mac_dylib':
-        '<!(python ../chrome/tools/build/version.py -f VERSION -f ../chrome/VERSION -t "@CEF_MAJOR@<(revision).@BUILD_HI@.@BUILD_LO@" -e "BUILD_HI=int(BUILD)/256" -e "BUILD_LO=int(BUILD)%256")',
+        '<!(python src/chrome/tools/build/version.py -f VERSION -f src/chrome/VERSION -t "@CEF_MAJOR@<(revision).@BUILD_HI@.@BUILD_LO@" -e "BUILD_HI=int(BUILD)/256" -e "BUILD_LO=int(BUILD)%256")',
   },
   'includes': [
     # Bring in the source file lists.
@@ -141,7 +141,7 @@
                 'install_name_tool',
                 '-change',
                 '@executable_path/libcef.dylib',
-                '@executable_path/../Frameworks/Chromium Embedded Framework.framework/Libraries/libcef.dylib',
+                '@executable_path/src/Frameworks/Chromium Embedded Framework.framework/Libraries/libcef.dylib',
                 '${BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}'
               ],
             },
@@ -175,7 +175,7 @@
             {
               # Modify the Info.plist as needed.
               'postbuild_name': 'Tweak Info.plist',
-              'action': ['../build/mac/tweak_info_plist.py',
+              'action': ['src/build/mac/tweak_info_plist.py',
                          '--scm=1'],
             },
             {
@@ -189,7 +189,7 @@
               # is marked for no PIE (ASLR).
               'postbuild_name': 'Make More Helpers',
               'action': [
-                '../build/mac/make_more_helpers.sh',
+                'src/build/mac/make_more_helpers.sh',
                 'Frameworks',
                 'cefclient',
               ],
@@ -336,7 +336,7 @@
                 'install_name_tool',
                 '-change',
                 '@executable_path/libcef.dylib',
-                '@executable_path/../Frameworks/Chromium Embedded Framework.framework/Libraries/libcef.dylib',
+                '@executable_path/src/Frameworks/Chromium Embedded Framework.framework/Libraries/libcef.dylib',
                 '${BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}'
               ],
             },
@@ -370,7 +370,7 @@
             {
               # Modify the Info.plist as needed.
               'postbuild_name': 'Tweak Info.plist',
-              'action': ['../build/mac/tweak_info_plist.py',
+              'action': ['src/build/mac/tweak_info_plist.py',
                          '--scm=1'],
             },
             {
@@ -384,7 +384,7 @@
               # is marked for no PIE (ASLR).
               'postbuild_name': 'Make More Helpers',
               'action': [
-                '../build/mac/make_more_helpers.sh',
+                'src/build/mac/make_more_helpers.sh',
                 'Frameworks',
                 'cef_unittests',
               ],
@@ -545,10 +545,10 @@
           'variables': {
             'grit_grd_file': 'libcef/resources/cef_strings.grd',
           },
-          'includes': [ '../build/grit_action.gypi' ],
+          'includes': [ 'src/build/grit_action.gypi' ],
         },
       ],
-      'includes': [ '../build/grit_target.gypi' ],
+      'includes': [ 'src/build/grit_target.gypi' ],
     },
     {
       # Create the locale-specific pack files.
@@ -636,10 +636,10 @@
           'variables': {
             'grit_grd_file': 'libcef/resources/cef_resources.grd',
           },
-          'includes': [ '../build/grit_action.gypi' ],
+          'includes': [ 'src/build/grit_action.gypi' ],
         },
       ],
-      'includes': [ '../build/grit_target.gypi' ],
+      'includes': [ 'src/build/grit_target.gypi' ],
       'copies': [
         {
           'destination': '<(PRODUCT_DIR)',
@@ -1165,7 +1165,7 @@
               # are used because Breakpad, Keystone, and SCM keys are
               # never placed into the helper.
               'postbuild_name': 'Tweak Info.plist',
-              'action': ['../build/mac/tweak_info_plist.py',
+              'action': ['src/build/mac/tweak_info_plist.py',
                          '--breakpad=0',
                          '--keystone=0',
                          '--scm=0'],
@@ -1256,7 +1256,7 @@
               # are used because Breakpad, Keystone, and SCM keys are
               # never placed into the helper.
               'postbuild_name': 'Tweak Info.plist',
-              'action': ['../build/mac/tweak_info_plist.py',
+              'action': ['src/build/mac/tweak_info_plist.py',
                          '--breakpad=0',
                          '--keystone=0',
                          '--scm=0'],
