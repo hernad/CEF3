@@ -6,8 +6,9 @@
   'variables': {
     'pkg-config': 'pkg-config',
     'chromium_code': 1,
-    'grit_out_dir': '<(SHARED_INTERMEDIATE_DIR)/cef',
-    'revision': '<!(python tools/revision.py)',
+#    'grit_out_dir': '<(SHARED_INTERMEDIATE_DIR)/cef',
+    #'revision': '<!(python tools/revision.py)',
+    'revision': '11483',
     # Need to be creative to match dylib version formatting requirements.
     'version_mac_dylib':
         '<!(python src/chrome/tools/build/version.py -f VERSION -f src/chrome/VERSION -t "@CEF_MAJOR@<(revision).@BUILD_HI@.@BUILD_LO@" -e "BUILD_HI=int(BUILD)/256" -e "BUILD_LO=int(BUILD)%256")',
@@ -23,7 +24,7 @@
       'mac_bundle': 1,
       'msvs_guid': '6617FED9-C5D4-4907-BF55-A90062A6683F',
       'dependencies': [
-        'cef_pak',
+#        'cef_pak',
         'libcef',
         'libcef_dll_wrapper',
       ],
@@ -118,13 +119,13 @@
                 '<(PRODUCT_DIR)/ffmpegsumo.so',
               ],
             },
-            {
-              # Add localized resources to the bundle.
-              'destination': '<(PRODUCT_DIR)/cefclient.app/Contents/Frameworks/Chromium Embedded Framework.framework/Resources/',
-              'files': [
-                '<!@pymod_do_main(repack_locales -o -g <(grit_out_dir) -s <(SHARED_INTERMEDIATE_DIR) -x <(INTERMEDIATE_DIR) <(locales))',
-              ],
-            },
+#            {
+#              # Add localized resources to the bundle.
+#              'destination': '<(PRODUCT_DIR)/cefclient.app/Contents/Frameworks/Chromium Embedded Framework.framework/Resources/',
+#              'files': [
+#                '<!@pymod_do_main(repack_locales -o -g <(grit_out_dir) -s <(SHARED_INTERMEDIATE_DIR) -x <(INTERMEDIATE_DIR) <(locales))',
+#              ],
+#            },
             {
               # Add the helper app.
               'destination': '<(PRODUCT_DIR)/cefclient.app/Contents/Frameworks',
@@ -233,7 +234,7 @@
         '<(DEPTH)/testing/gtest.gyp:gtest',
         '<(DEPTH)/third_party/icu/icu.gyp:icui18n',
         '<(DEPTH)/third_party/icu/icu.gyp:icuuc',
-        'cef_pak',
+#        'cef_pak',
         'libcef',
         'libcef_dll_wrapper',
       ],
@@ -314,13 +315,13 @@
                 '<(PRODUCT_DIR)/ffmpegsumo.so',
               ],
             },
-            {
-              # Add localized resources to the bundle.
-              'destination': '<(PRODUCT_DIR)/cef_unittests.app/Contents/Frameworks/Chromium Embedded Framework.framework/Resources/',
-              'files': [
-                '<!@pymod_do_main(repack_locales -o -g <(grit_out_dir) -s <(SHARED_INTERMEDIATE_DIR) -x <(INTERMEDIATE_DIR) <(locales))',
-              ],
-            },
+#            {
+#              # Add localized resources to the bundle.
+#              'destination': '<(PRODUCT_DIR)/cef_unittests.app/Contents/Frameworks/Chromium Embedded Framework.framework/Resources/',
+#              'files': [
+#                '<!@pymod_do_main(repack_locales -o -g <(grit_out_dir) -s <(SHARED_INTERMEDIATE_DIR) -x <(INTERMEDIATE_DIR) <(locales))',
+#              ],
+#            },
             {
               # Add the helper app.
               'destination': '<(PRODUCT_DIR)/cef_unittests.app/Contents/Frameworks',
@@ -406,16 +407,17 @@
       'type': 'shared_library',
       'msvs_guid': 'C13650D5-CF1A-4259-BE45-B1EBA6280E47',
       'dependencies': [
-        '<(DEPTH)/content/content.gyp:content_app',
-        '<(DEPTH)/content/content.gyp:content_browser',
-        '<(DEPTH)/content/content.gyp:content_common',
-        '<(DEPTH)/content/content.gyp:content_gpu',
-        '<(DEPTH)/content/content.gyp:content_plugin',
-        '<(DEPTH)/content/content.gyp:content_ppapi_plugin',
-        '<(DEPTH)/content/content.gyp:content_renderer',
-        '<(DEPTH)/content/content.gyp:content_utility',
-        '<(DEPTH)/content/content.gyp:content_worker',
-        '<(DEPTH)/content/content_resources.gyp:content_resources',
+# hernad - ovo je samo za windows ?
+#        '<(DEPTH)/content/content.gyp:content_app',
+#        '<(DEPTH)/content/content.gyp:content_browser',
+#        '<(DEPTH)/content/content.gyp:content_common',
+#        '<(DEPTH)/content/content.gyp:content_gpu',
+#        '<(DEPTH)/content/content.gyp:content_plugin',
+#        '<(DEPTH)/content/content.gyp:content_ppapi_plugin',
+#        '<(DEPTH)/content/content.gyp:content_renderer',
+#        '<(DEPTH)/content/content.gyp:content_utility',
+#        '<(DEPTH)/content/content.gyp:content_worker',
+#        '<(DEPTH)/content/content_resources.gyp:content_resources',
         '<(DEPTH)/base/base.gyp:base',
         '<(DEPTH)/base/third_party/dynamic_annotations/dynamic_annotations.gyp:dynamic_annotations',
         '<(DEPTH)/build/temp_gyp/googleurl.gyp:googleurl',
@@ -535,213 +537,216 @@
         '<@(libcef_dll_wrapper_sources_common)',
       ],
     },
-    {
-      # Create the pack file for CEF strings.
-      'target_name': 'cef_strings',
-      'type': 'none',
-      'actions': [
-        {
-          'action_name': 'cef_strings',
-          'variables': {
-            'grit_grd_file': 'libcef/resources/cef_strings.grd',
-          },
-          'includes': [ 'src/build/grit_action.gypi' ],
-        },
-      ],
-      'includes': [ 'src/build/grit_target.gypi' ],
-    },
-    {
-      # Create the locale-specific pack files.
-      'target_name': 'cef_locales',
-      'type': 'none',
-      'dependencies': [
-        '<(DEPTH)/ui/base/strings/ui_strings.gyp:ui_strings',
-        '<(DEPTH)/webkit/support/webkit_support.gyp:webkit_strings',
-        'cef_strings',
-      ],
-      'variables': {
-        'repack_locales_cmd': ['python', 'tools/repack_locales.py'],
-      },
-      'conditions': [
-        ['OS=="win"', {
-          'actions': [
-            {
-              'action_name': 'repack_locales',
-              'inputs': [
-                'tools/repack_locales.py',
-                # NOTE: Ideally the common command args would be shared
-                # amongst inputs/outputs/action, but the args include shell
-                # variables which need to be passed intact, and command
-                # expansion wants to expand the shell variables. Adding the
-                # explicit quoting here was the only way it seemed to work.
-                '>!@(<(repack_locales_cmd) -i -g \"<(grit_out_dir)\" -s \"<(SHARED_INTERMEDIATE_DIR)\" -x \"<(INTERMEDIATE_DIR)\" <(locales))',
-              ],
-              'outputs': [
-                '>!@(<(repack_locales_cmd) -o -g \"<(grit_out_dir)\" -s \"<(SHARED_INTERMEDIATE_DIR)\" -x \"<(INTERMEDIATE_DIR)\" <(locales))',
-              ],
-              'action': [
-                '<@(repack_locales_cmd)',
-                '-g', '<(grit_out_dir)',
-                '-s', '<(SHARED_INTERMEDIATE_DIR)',
-                '-x', '<(INTERMEDIATE_DIR)',
-                '<@(locales)',
-              ],
-            },
-          ],
-        }, { # OS!="win"
-          'actions': [
-            {
-              'action_name': 'repack_locales',
-              'inputs': [
-                'tools/repack_locales.py',
-                # NOTE: Ideally the common command args would be shared
-                # amongst inputs/outputs/action, but the args include shell
-                # variables which need to be passed intact, and command
-                # expansion wants to expand the shell variables. Adding the
-                # explicit quoting here was the only way it seemed to work.
-                '>!@(<(repack_locales_cmd) -i -g \'<(grit_out_dir)\' -s \'<(SHARED_INTERMEDIATE_DIR)\' -x \'<(INTERMEDIATE_DIR)\' <(locales))',
-              ],
-              'outputs': [
-                '>!@(<(repack_locales_cmd) -o -g \'<(grit_out_dir)\' -s \'<(SHARED_INTERMEDIATE_DIR)\' -x \'<(INTERMEDIATE_DIR)\' <(locales))',
-              ],
-              'action': [
-                '<@(repack_locales_cmd)',
-                '-g', '<(grit_out_dir)',
-                '-s', '<(SHARED_INTERMEDIATE_DIR)',
-                '-x', '<(INTERMEDIATE_DIR)',
-                '<@(locales)',
-              ],
-            },
-          ],
-        }],
-        ['OS != "mac"', {
-          'copies': [
-            {
-              'destination': '<(PRODUCT_DIR)/locales',
-              'files': [
-                '<!@pymod_do_main(repack_locales -o -g <(grit_out_dir) -s <(SHARED_INTERMEDIATE_DIR) -x <(INTERMEDIATE_DIR) <(locales))'
-              ],
-            },
-          ],
-        }],
-      ],
-    },
-    {
-      # Create the pack file for CEF resources.
-      'target_name': 'cef_resources',
-      'type': 'none',
-      'actions': [
-        {
-          'action_name': 'cef_resources',
-          'variables': {
-            'grit_grd_file': 'libcef/resources/cef_resources.grd',
-          },
-          'includes': [ 'src/build/grit_action.gypi' ],
-        },
-      ],
-      'includes': [ 'src/build/grit_target.gypi' ],
-      'copies': [
-        {
-          'destination': '<(PRODUCT_DIR)',
-          'files': [
-            '<(grit_out_dir)/cef_resources.pak'
-          ],
-        },
-      ],
-    },
-    {
-      # Combine all non-localized pack file resources into a single CEF pack file.
-      'target_name': 'cef_pak',
-      'type': 'none',
-      'dependencies': [
-        '<(DEPTH)/content/browser/debugger/devtools_resources.gyp:devtools_resources',
-        '<(DEPTH)/content/content_resources.gyp:content_resources',
-        '<(DEPTH)/net/net.gyp:net_resources',
-        '<(DEPTH)/ui/ui.gyp:ui_resources',
-        '<(DEPTH)/webkit/support/webkit_support.gyp:webkit_resources',
-        'cef_locales',
-        'cef_resources',
-      ],
-      'variables': {
-        'repack_path': '<(DEPTH)/tools/grit/grit/format/repack.py',
-        'make_pack_header_path': 'tools/make_pack_header.py',
-      },
-      'actions': [
-        {
-          'action_name': 'repack_cef_pack',
-          'variables': {
-            'pak_inputs': [
-              '<(SHARED_INTERMEDIATE_DIR)/content/content_resources.pak',
-              '<(SHARED_INTERMEDIATE_DIR)/net/net_resources.pak',
-              '<(SHARED_INTERMEDIATE_DIR)/ui/ui_resources/ui_resources_100_percent.pak',
-              '<(SHARED_INTERMEDIATE_DIR)/webkit/webkit_chromium_resources.pak',
-              '<(SHARED_INTERMEDIATE_DIR)/webkit/webkit_resources_100_percent.pak',
-              '<(grit_out_dir)/cef_resources.pak',
-            ],
-          },
-          'inputs': [
-            '<(repack_path)',
-            '<@(pak_inputs)',
-          ],
-          'outputs': [
-            '<(PRODUCT_DIR)/cef.pak',
-          ],
-          'action': ['python', '<(repack_path)', '<@(_outputs)',
-                     '<@(pak_inputs)'],
-        },
-        {
-          'action_name': 'make_pack_resources_header',
-          'variables': {
-            'header_inputs': [
-              '<(SHARED_INTERMEDIATE_DIR)/content/grit/content_resources.h',
-              '<(SHARED_INTERMEDIATE_DIR)/net/grit/net_resources.h',
-              '<(SHARED_INTERMEDIATE_DIR)/ui/ui_resources/grit/ui_resources.h',
-              '<(SHARED_INTERMEDIATE_DIR)/webkit/grit/devtools_resources.h',
-              '<(SHARED_INTERMEDIATE_DIR)/webkit/grit/webkit_chromium_resources.h',
-              '<(SHARED_INTERMEDIATE_DIR)/webkit/grit/webkit_resources.h',
-              '<(grit_out_dir)/grit/cef_resources.h',
-            ],
-          },
-          'inputs': [
-            '<(make_pack_header_path)',
-            '<@(header_inputs)',
-          ],
-          'outputs': [
-            'include/cef_pack_resources.h',
-          ],
-          'action': ['python', '<(make_pack_header_path)', '<@(_outputs)',
-                     '<@(header_inputs)'],
-        },
-        {
-          'action_name': 'make_pack_strings_header',
-          'variables': {
-            'header_inputs': [
-              '<(SHARED_INTERMEDIATE_DIR)/ui/ui_strings/grit/ui_strings.h',
-              '<(SHARED_INTERMEDIATE_DIR)/webkit/grit/webkit_strings.h',
-              '<(grit_out_dir)/grit/cef_strings.h',
-            ],
-          },
-          'inputs': [
-            '<(make_pack_header_path)',
-            '<@(header_inputs)',
-          ],
-          'outputs': [
-            'include/cef_pack_strings.h',
-          ],
-          'action': ['python', '<(make_pack_header_path)', '<@(_outputs)',
-                     '<@(header_inputs)'],
-        },
-      ],
-      'copies': [
-        {
-          # Keep the devtools_resources.pak file separate.
-          'destination': '<(PRODUCT_DIR)',
-          'files': [
-            '<(SHARED_INTERMEDIATE_DIR)/webkit/devtools_resources.pak',
-          ],
-        },
-      ],
-    },
+
+# hernad
+#    {
+#      # Create the pack file for CEF strings.
+#      'target_name': 'cef_strings',
+#      'type': 'none',
+#      'actions': [
+#        {
+#          'action_name': 'cef_strings',
+#          'variables': {
+#            'grit_grd_file': 'libcef/resources/cef_strings.grd',
+#          },
+#          'includes': [ 'src/build/grit_action.gypi' ],
+#        },
+#      ],
+#      'includes': [ 'src/build/grit_target.gypi' ],
+#    },
+
+#    {
+#      # Create the locale-specific pack files.
+#      'target_name': 'cef_locales',
+#      'type': 'none',
+#      'dependencies': [
+#        '<(DEPTH)/ui/base/strings/ui_strings.gyp:ui_strings',
+#        '<(DEPTH)/webkit/support/webkit_support.gyp:webkit_strings',
+#        'cef_strings',
+#      ],
+#      'variables': {
+#        'repack_locales_cmd': ['python', 'tools/repack_locales.py'],
+#      },
+#      'conditions': [
+#        ['OS=="win"', {
+#          'actions': [
+#            {
+#              'action_name': 'repack_locales',
+#              'inputs': [
+#                'tools/repack_locales.py',
+#                # NOTE: Ideally the common command args would be shared
+#                # amongst inputs/outputs/action, but the args include shell
+#                # variables which need to be passed intact, and command
+#                # expansion wants to expand the shell variables. Adding the
+#                # explicit quoting here was the only way it seemed to work.
+#                '>!@(<(repack_locales_cmd) -i -g \"<(grit_out_dir)\" -s \"<(SHARED_INTERMEDIATE_DIR)\" -x \"<(INTERMEDIATE_DIR)\" <(locales))',
+#              ],
+#              'outputs': [
+#                '>!@(<(repack_locales_cmd) -o -g \"<(grit_out_dir)\" -s \"<(SHARED_INTERMEDIATE_DIR)\" -x \"<(INTERMEDIATE_DIR)\" <(locales))',
+#              ],
+#              'action': [
+#                '<@(repack_locales_cmd)',
+#                '-g', '<(grit_out_dir)',
+#                '-s', '<(SHARED_INTERMEDIATE_DIR)',
+#                '-x', '<(INTERMEDIATE_DIR)',
+#                '<@(locales)',
+#              ],
+#            },
+#          ],
+#        },  { # OS!="win"
+#          'actions': [
+#            {
+#              'action_name': 'repack_locales',
+#              'inputs': [
+#                'tools/repack_locales.py',
+#                # NOTE: Ideally the common command args would be shared
+#                # amongst inputs/outputs/action, but the args include shell
+#                # variables which need to be passed intact, and command
+#                # expansion wants to expand the shell variables. Adding the
+#                # explicit quoting here was the only way it seemed to work.
+#                '>!@(<(repack_locales_cmd) -i -g \'<(grit_out_dir)\' -s \'<(SHARED_INTERMEDIATE_DIR)\' -x \'<(INTERMEDIATE_DIR)\' <(locales))',
+#              ],
+#              'outputs': [
+#                '>!@(<(repack_locales_cmd) -o -g \'<(grit_out_dir)\' -s \'<(SHARED_INTERMEDIATE_DIR)\' -x \'<(INTERMEDIATE_DIR)\' <(locales))',
+#              ],
+#              'action': [
+#                '<@(repack_locales_cmd)',
+#                '-g', '<(grit_out_dir)',
+#                '-s', '<(SHARED_INTERMEDIATE_DIR)',
+#                '-x', '<(INTERMEDIATE_DIR)',
+#                '<@(locales)',
+#              ],
+#            },
+#          ],
+#        }],
+#        ['OS != "mac"', {
+#          'copies': [
+#            {
+#              'destination': '<(PRODUCT_DIR)/locales',
+#              'files': [
+#               '<!@pymod_do_main(repack_locales -o -g <(grit_out_dir) -s <(SHARED_INTERMEDIATE_DIR) -x <(INTERMEDIATE_DIR) <(locales))'
+#             ],
+#            },
+#          ],
+#        }],
+#      ],
+#    },
+#    {
+#      # Create the pack file for CEF resources.
+#      'target_name': 'cef_resources',
+#      'type': 'none',
+#      'actions': [
+#        {
+#          'action_name': 'cef_resources',
+#          'variables': {
+#            'grit_grd_file': 'libcef/resources/cef_resources.grd',
+#          },
+#          'includes': [ 'src/build/grit_action.gypi' ],
+#        },
+#      ],
+#      'includes': [ 'src/build/grit_target.gypi' ],
+#      'copies': [
+#        {
+#          'destination': '<(PRODUCT_DIR)',
+#          'files': [
+#            '<(grit_out_dir)/cef_resources.pak'
+#          ],
+#        },
+#      ],
+#    },
+#    {
+#      # Combine all non-localized pack file resources into a single CEF pack file.
+#      'target_name': 'cef_pak',
+#      'type': 'none',
+#      'dependencies': [
+#        '<(DEPTH)/content/browser/debugger/devtools_resources.gyp:devtools_resources',
+#        '<(DEPTH)/content/content_resources.gyp:content_resources',
+#        '<(DEPTH)/net/net.gyp:net_resources',
+#        '<(DEPTH)/ui/ui.gyp:ui_resources',
+#        '<(DEPTH)/webkit/support/webkit_support.gyp:webkit_resources',
+#        'cef_locales',
+#        'cef_resources',
+#      ],
+#      'variables': {
+#        'repack_path': '<(DEPTH)/tools/grit/grit/format/repack.py',
+#        'make_pack_header_path': 'tools/make_pack_header.py',
+#      },
+#      'actions': [
+#        {
+#          'action_name': 'repack_cef_pack',
+#          'variables': {
+#            'pak_inputs': [
+#              '<(SHARED_INTERMEDIATE_DIR)/content/content_resources.pak',
+#              '<(SHARED_INTERMEDIATE_DIR)/net/net_resources.pak',
+#              '<(SHARED_INTERMEDIATE_DIR)/ui/ui_resources/ui_resources_100_percent.pak',
+#              '<(SHARED_INTERMEDIATE_DIR)/webkit/webkit_chromium_resources.pak',
+#              '<(SHARED_INTERMEDIATE_DIR)/webkit/webkit_resources_100_percent.pak',
+#              '<(grit_out_dir)/cef_resources.pak',
+#            ],
+#          },
+#          'inputs': [
+#            '<(repack_path)',
+#            '<@(pak_inputs)',
+#          ],
+#          'outputs': [
+#            '<(PRODUCT_DIR)/cef.pak',
+#          ],
+#          'action': ['python', '<(repack_path)', '<@(_outputs)',
+#                     '<@(pak_inputs)'],
+#        },
+#        {
+#          'action_name': 'make_pack_resources_header',
+#          'variables': {
+#            'header_inputs': [
+#              '<(SHARED_INTERMEDIATE_DIR)/content/grit/content_resources.h',
+#              '<(SHARED_INTERMEDIATE_DIR)/net/grit/net_resources.h',
+#              '<(SHARED_INTERMEDIATE_DIR)/ui/ui_resources/grit/ui_resources.h',
+#              '<(SHARED_INTERMEDIATE_DIR)/webkit/grit/devtools_resources.h',
+#              '<(SHARED_INTERMEDIATE_DIR)/webkit/grit/webkit_chromium_resources.h',
+#              '<(SHARED_INTERMEDIATE_DIR)/webkit/grit/webkit_resources.h',
+#              '<(grit_out_dir)/grit/cef_resources.h',
+#            ],
+#          },
+#          'inputs': [
+#            '<(make_pack_header_path)',
+#            '<@(header_inputs)',
+#          ],
+#          'outputs': [
+#            'include/cef_pack_resources.h',
+#          ],
+#          'action': ['python', '<(make_pack_header_path)', '<@(_outputs)',
+#                     '<@(header_inputs)'],
+#        },
+#        {
+#          'action_name': 'make_pack_strings_header',
+#          'variables': {
+#            'header_inputs': [
+#              '<(SHARED_INTERMEDIATE_DIR)/ui/ui_strings/grit/ui_strings.h',
+#              '<(SHARED_INTERMEDIATE_DIR)/webkit/grit/webkit_strings.h',
+#              '<(grit_out_dir)/grit/cef_strings.h',
+#            ],
+#          },
+#          'inputs': [
+#            '<(make_pack_header_path)',
+#            '<@(header_inputs)',
+#          ],
+#          'outputs': [
+#            'include/cef_pack_strings.h',
+#          ],
+#          'action': ['python', '<(make_pack_header_path)', '<@(_outputs)',
+#                     '<@(header_inputs)'],
+#        },
+#      ],
+#      'copies': [
+#        {
+#          # Keep the devtools_resources.pak file separate.
+#          'destination': '<(PRODUCT_DIR)',
+#          'files': [
+#            '<(SHARED_INTERMEDIATE_DIR)/webkit/devtools_resources.pak',
+#          ],
+#        },
+#      ],
+#    },
     {
       'target_name': 'libcef_static',
       'type': 'static_library',
@@ -752,8 +757,8 @@
       'include_dirs': [
         '.',
         '<(DEPTH)/third_party/WebKit/Source/WebKit/chromium/public',
-        # CEF grit resource includes
-        '<(grit_out_dir)',
+#        # CEF grit resource includes
+#        '<(grit_out_dir)',
         '<(SHARED_INTERMEDIATE_DIR)/ui/ui_strings',
       ],
       'dependencies': [
@@ -782,8 +787,8 @@
         '<(DEPTH)/v8/tools/gyp/v8.gyp:v8',
         '<(DEPTH)/webkit/support/webkit_support.gyp:glue',
         '<(DEPTH)/webkit/support/webkit_support.gyp:webkit_storage',
-        # Necessary to generate the grit include files.
-        'cef_pak',
+#        # Necessary to generate the grit include files.
+#        'cef_pak',
       ],
       'sources': [
         '<@(includes_common)',
@@ -1011,6 +1016,7 @@
       ],
     },
   ],
+
   'conditions': [
     ['os_posix==1 and OS!="mac" and OS!="android" and gcc_version>=46', {
       'target_defaults': {
@@ -1104,7 +1110,7 @@
           'product_name': 'cefclient Helper',
           'mac_bundle': 1,
           'dependencies': [
-            'cef_pak',
+#            'cef_pak',
             'libcef',
             'libcef_dll_wrapper',
           ],
@@ -1184,7 +1190,7 @@
             '<(DEPTH)/testing/gtest.gyp:gtest',
             '<(DEPTH)/third_party/icu/icu.gyp:icui18n',
             '<(DEPTH)/third_party/icu/icu.gyp:icuuc',
-            'cef_pak',
+#            'cef_pak',
             'libcef',
             'libcef_dll_wrapper',
           ],
