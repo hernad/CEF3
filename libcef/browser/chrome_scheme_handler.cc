@@ -25,7 +25,8 @@
 #include "base/utf_string_conversions.h"
 #include "base/values.h"
 #include "content/public/common/content_client.h"
-#include "grit/cef_resources.h"
+// hernad
+#include "include/cef_resource_handler.h"
 #include "ipc/ipc_channel.h"
 #include "v8/include/v8.h"
 #include "webkit/user_agent/user_agent_util.h"
