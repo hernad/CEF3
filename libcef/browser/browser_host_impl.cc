@@ -299,6 +299,7 @@ CefRefPtr<CefBrowserHostImpl> CefBrowserHostImpl::Create(
     CefWindowHandle opener) {
   CEF_REQUIRE_UIT();
 
+  /* hernad
   if (web_contents == NULL) {
     web_contents = content::WebContents::Create(
         _Context->browser_context(),
@@ -306,6 +307,7 @@ CefRefPtr<CefBrowserHostImpl> CefBrowserHostImpl::Create(
         MSG_ROUTING_NONE,
         NULL);
   }
+  */
 
   CefRefPtr<CefBrowserHostImpl> browser =
       new CefBrowserHostImpl(window_info, settings, client, web_contents,
@@ -1504,7 +1506,9 @@ void CefBrowserHostImpl::RequestMediaAccessPermission(
     const content::MediaResponseCallback& callback) {
   CEF_CURRENTLY_ON_UIT();
 
+  /*
   content::MediaStreamDevices devices;
+  hernad
   for (content::MediaStreamDeviceMap::const_iterator it =
        request->devices.begin(); it != request->devices.end(); ++it) {
     devices.push_back(*it->second.begin());
@@ -1513,6 +1517,7 @@ void CefBrowserHostImpl::RequestMediaAccessPermission(
   // TODO(cef): Give the user an opportunity to approve the device list or run
   // the callback with an empty device list to cancel the request.
   callback.Run(devices);
+  */
 }
 
 
@@ -1991,8 +1996,11 @@ void CefBrowserHostImpl::RunFileChooserOnUIThread(
 
   if (client_.get()) {
     CefRefPtr<CefDialogHandler> handler = client_->GetDialogHandler();
+    
+    // hernad
+    cef_file_dialog_mode_t mode = FILE_DIALOG_OPEN;
+
     if (handler.get()) {
-      cef_file_dialog_mode_t mode;
       switch (params.mode) {
         case content::FileChooserParams::Open:
           mode = FILE_DIALOG_OPEN;
