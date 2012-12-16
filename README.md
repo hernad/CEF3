@@ -44,6 +44,14 @@ libelfg0-dev
     BUILDTYPE=Release make
 
 
-# CEF supose chrome dir is 
-    python tools/gyp_cef --depth src
+# CEF3
+
+clone this repository under chromium src root `chromium_src/CEF3`
+
+
+    python tools/gyp_cef
+
+
+=> ../Makefile
+
     

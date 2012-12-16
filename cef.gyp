@@ -11,7 +11,7 @@
     'revision': '11483',
     # Need to be creative to match dylib version formatting requirements.
     'version_mac_dylib':
-        '<!(python src/chrome/tools/build/version.py -f VERSION -f src/chrome/VERSION -t "@CEF_MAJOR@<(revision).@BUILD_HI@.@BUILD_LO@" -e "BUILD_HI=int(BUILD)/256" -e "BUILD_LO=int(BUILD)%256")',
+        '<!(python ../chrome/tools/build/version.py -f VERSION -f ../chrome/VERSION -t "@CEF_MAJOR@<(revision).@BUILD_HI@.@BUILD_LO@" -e "BUILD_HI=int(BUILD)/256" -e "BUILD_LO=int(BUILD)%256")',
   },
   'includes': [
     # Bring in the source file lists.
