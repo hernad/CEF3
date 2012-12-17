@@ -1,5 +1,5 @@
 solutions = [
-  { "name"        : "src",
+  { "name"        : "chromium_src",
     "url"         : "http://src.chromium.org/svn/trunk/src",
     "deps_file"   : "DEPS",
     "managed"     : True,

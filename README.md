@@ -19,33 +19,33 @@ GYP_GENERATORS=ninja GYP_DEFINES=clang=1 ./build/gyp_chromium
 
 ## linux prerequisites
 
-sudo apt-get -y install libgtk2.0-dev libnss3-dev libgconf2-dev libpci-dev libgnome-keyring-dev libudev-dev libcups2-dev libxss-dev libbz2-dev libasound2-dev gperf bison flex libelfg0-dev
+     sudo apt-get -y install libgtk2.0-dev libnss3-dev libgconf2-dev libpci-dev libgnome-keyring-dev libudev-dev libcups2-dev libxss-dev libbz2-dev libasound2-dev gperf bison flex libelfg0-dev
 
-#cups-pk-helper
-#x11proto-scrnsaver-dev
-#libxcb-screensaver0-dev
-#libalsaplayer-dev
+     #cups-pk-helper
+     #x11proto-scrnsaver-dev
+     #libxcb-screensaver0-dev
+     #libalsaplayer-dev
 
 
 ## Build
 
     mkdir chromium
-    mkdir -p src/cef
-    cd src/cef
     git clone git@github.com:hernad/CEF3 cef
 
+    cd cef
     echo "fetching depot_tools .."
     git clone https://git.chromium.org/chromium/tools/depot_tools.git
 
     echo "depot_tools to your PATH"
     export PATH="$PATH":`pwd`/depot_tools
 
-    cp .gclient ../../
-    echo syncing chromium project source code ...
-    cd ../..
-    gclient sync
-
-    cd src/cef
+    cp .gclient ../
+    cd ..
+    echo syncing chromium project source code - chromium_src
+    gclient sync --revision  src@170167
+    cd chromium_src
+    mv ../cef .
+    
     echo "building make files for cef project"
     ./cef_create_projects.sh
     cd ..
