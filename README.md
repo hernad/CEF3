@@ -1,4 +1,31 @@
-# CEF
+# CEF 3
+
+## Init
+
+
+    mkdir chromium
+    mkdir -p src/cef
+    cd src/cef
+    git clone git@github.com:hernad/CEF3 cef
+    cp .gclient ../../
+    gclient sync
+    cd src/cef
+    ./cef_create_projects.sh
+    cd ..
+    echo "iz chromium source-a pokrecem make 
+    BUILDTYPE=Release make cefclient
+
+
+## Notes
+
+
+## cef_resources.h
+
+linux: u make procesu se generiše
+
+... ACTION Generating resources from libcef/resources/cef_resources.grd out/Release/obj/gen/cef/grit/cef_resources.h
+
+
 
 Fetch depot_tools: 
     git clone https://git.chromium.org/chromium/tools/depot_tools.git

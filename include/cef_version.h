@@ -36,9 +36,7 @@
 #define CEF_INCLUDE_CEF_VERSION_H_
 
 #define CEF_VERSION_MAJOR 3
-
-// hernad
-#define CEF_REVISION 999
+#define CEF_REVISION None
 #define COPYRIGHT_YEAR 2012
 
 #define CHROME_VERSION_MAJOR 25
