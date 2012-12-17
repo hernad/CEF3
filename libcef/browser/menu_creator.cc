@@ -11,7 +11,9 @@
 #include "content/public/browser/render_view_host.h"
 #include "content/public/browser/render_widget_host_view.h"
 #include "content/public/common/content_client.h"
-#include "grit/cef_strings.h"
+//hernad
+//#include "grit/cef_strings.h"
+#include "include/cef_strings.h"
 
 #if defined(OS_WIN)
 #include "libcef/browser/menu_creator_runner_win.h"

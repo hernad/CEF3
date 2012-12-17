@@ -15,10 +15,19 @@ class CefResourceDispatcherHostDelegate
   CefResourceDispatcherHostDelegate();
   virtual ~CefResourceDispatcherHostDelegate();
 
+  /*
+   * hernad OVERRIDE ?
   // ResourceDispatcherHostDelegate methods.
   virtual bool HandleExternalProtocol(const GURL& url,
                                       int child_id,
                                       int route_id) OVERRIDE;
+   */
+
+  // ResourceDispatcherHostDelegate methods.
+  virtual bool HandleExternalProtocol(const GURL& url,
+                                      int child_id,
+                                      int route_id);
+
 
  private:
   DISALLOW_COPY_AND_ASSIGN(CefResourceDispatcherHostDelegate);
