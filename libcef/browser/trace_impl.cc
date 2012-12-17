@@ -200,7 +200,6 @@ CEF_EXPORT void cef_trace_event_if_longer_than(int64 threshold_us,
   if (!category || !name)
     return;
 
-  /* hernad THAN0 THAN1 THAN2 ?
   if (arg1_name == NULL && arg2_name == NULL) {
     TRACE_EVENT_IF_LONGER_THAN0(threshold_us, category, name);
   } else if (arg2_name == NULL) {
@@ -210,8 +209,6 @@ CEF_EXPORT void cef_trace_event_if_longer_than(int64 threshold_us,
     TRACE_EVENT_IF_LONGER_THAN2(threshold_us, category, name, arg1_name,
                                 arg1_val, arg2_name, arg2_val);
   }
-
-  */
 }
 
 CEF_EXPORT void cef_trace_counter(const char* category,

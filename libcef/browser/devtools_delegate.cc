@@ -19,10 +19,7 @@
 #include "content/public/browser/render_view_host.h"
 #include "content/public/common/content_client.h"
 #include "content/public/common/content_switches.h"
-//hernad
-//#include "grit/cef_resources.h"
-#include "include/cef_resources.h"
-
+#include "grit/cef_resources.h"
 #include "net/base/tcp_listen_socket.h"
 #include "ui/base/layout.h"
 #include "ui/base/resource/resource_bundle.h"

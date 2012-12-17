@@ -7,12 +7,23 @@
     mkdir -p src/cef
     cd src/cef
     git clone git@github.com:hernad/CEF3 cef
+
+    echo "fetching depot_tools .."
+    git clone https://git.chromium.org/chromium/tools/depot_tools.git
+
+    echo "depot_tools to your PATH"
+    export PATH="$PATH":`pwd`/depot_tools
+
     cp .gclient ../../
+    echo syncing chromium project source code ...
+    cd ../..
     gclient sync
+
     cd src/cef
+    echo "building make files for cef project"
     ./cef_create_projects.sh
     cd ..
-    echo "iz chromium source-a pokrecem make 
+    echo "pokrecem make iz chromium src: `pwd`"
     BUILDTYPE=Release make cefclient
 
 
@@ -26,12 +37,20 @@ linux: u make procesu se generiše
 ... ACTION Generating resources from libcef/resources/cef_resources.grd out/Release/obj/gen/cef/grit/cef_resources.h
 
 
+# cefrepos svn info
 
-Fetch depot_tools: 
-    git clone https://git.chromium.org/chromium/tools/depot_tools.git
+    vagrant@f18-dev-1:~/chromium/src/cef$ svn info
+    Putanja: .
+    URL: http://chromiumembedded.googlecode.com/svn/trunk/cef3
+    Korijen repozitorija: http://chromiumembedded.googlecode.com/svn
+    UUID repozitorija: 5089003a-bbd8-11dd-ad1f-f1f9622dbc98
+    Revizija: 949
+    Vrsta čvora: direktorij
+    Raspored: normal
+    Last Changed Author: magreenblatt@gmail.com
+    Last Changed Rev: 949
+    Last Changed Date: 2012-12-12 15:43:57 +0100 (Sri, 12 Dec 2012)
 
-Add depot_tools to your PATH:
-$ export PATH="$PATH":`pwd`/depot_tools
 
 
 

@@ -62,8 +62,6 @@ def write_svn_header(header, chrome_version, cef_version):
     except:
         revision = git.get_svn_revision()
 
-    # hernad
-    revision = 0
     newcontents = '// Copyright (c) '+year+' Marshall A. Greenblatt. All rights reserved.\n'+\
                   '//\n'+\
                   '// Redistribution and use in source and binary forms, with or without\n'+\

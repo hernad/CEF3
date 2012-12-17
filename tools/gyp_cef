@@ -18,10 +18,7 @@ import sys
 cef_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir))
 
 # The Chromium source directory is the parent directory of CEF.
-
 chrome_src = os.path.abspath(os.path.join(cef_dir, os.pardir))
-# hernad: chrome je u src/
-#chrome_src = os.path.abspath(os.path.join(cef_dir, "src"))
 
 sys.path.insert(0, os.path.join(chrome_src, 'tools', 'gyp', 'pylib'))
 import gyp
