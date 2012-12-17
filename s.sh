@@ -1,3 +1,6 @@
+echo ovo je bezveze
+exit 1
+
 gyp cef.gyp -D os_posix=1 -D gcc_version=46 -D toolkit_uses_gtk=1 -D selinux=0 \
     -D target_arch=ia32 -D toolkit_views=0 \
     -D test_isolation_mode=0 -D test_isolation_outdir=/tmp/ \
