@@ -41,9 +41,9 @@ GYP_GENERATORS=ninja GYP_DEFINES=clang=1 ./build/gyp_chromium
 
     cp .gclient ../
     cd ..
-    echo syncing chromium project source code - chromium_src
+    echo syncing chromium project source code - src/
     gclient sync --revision  src@170167
-    cd chromium_src
+    cd src
     mv ../cef .
     
     echo "building make files for cef project"
