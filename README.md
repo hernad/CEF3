@@ -19,7 +19,7 @@ GYP_GENERATORS=ninja GYP_DEFINES=clang=1 ./build/gyp_chromium
 
 ## linux prerequisites
 
-     sudo apt-get -y install libgtk2.0-dev libnss3-dev libgconf2-dev libpci-dev libgnome-keyring-dev libudev-dev libcups2-dev libxss-dev libbz2-dev libasound2-dev gperf bison flex libelfg0-dev
+     sudo apt-get -y install libgtk2.0-dev libnss3-dev libgconf2-dev libpci-dev libgnome-keyring-dev libudev-dev libcups2-dev libxss-dev libbz2-dev libasound2-dev gperf bison flex libelfg0-dev libwebkit-dev
 
      #cups-pk-helper
      #x11proto-scrnsaver-dev

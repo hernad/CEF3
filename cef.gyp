@@ -7,7 +7,8 @@
     'pkg-config': 'pkg-config',
     'chromium_code': 1,
     'grit_out_dir': '<(SHARED_INTERMEDIATE_DIR)/cef',
-    'revision': '<!(python tools/revision.py)',
+    #'revision': '<!(python tools/revision.py)',
+    'revision': '<!(cat CEF_VERSION)>',
     # Need to be creative to match dylib version formatting requirements.
     'version_mac_dylib':
         '<!(python ../chrome/tools/build/version.py -f VERSION -f ../chrome/VERSION -t "@CEF_MAJOR@<(revision).@BUILD_HI@.@BUILD_LO@" -e "BUILD_HI=int(BUILD)/256" -e "BUILD_LO=int(BUILD)%256")',
